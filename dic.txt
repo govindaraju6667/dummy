@@ -1,0 +1,344 @@
+---------------------js-----------------------------------------------------------------
+let searchIcon = document.getElementById("search-icon")
+let chk = document.getElementById("chk")
+chk.addEventListener("change",()=>{
+    document.body.classList.toggle('dark')
+})
+searchIcon.addEventListener("click",(event)=>{
+    event.preventDefault();
+    let value = document.getElementById("word")
+    let wordValue = value.value;
+    let url = `https://api.dictionaryapi.dev/api/v2/entries/en/${wordValue}`;
+    fetch(url).then((response)=>response.json()).then((response)=>{
+        console.log(response);
+        let headingValue = document.getElementById("headingValue");
+        headingValue.innerHTML = wordValue;
+        let phoeneticValue = document.getElementById("phoenitic");
+        phoeneticValue.innerHTML = response[0].phonetic;
+
+        let nounTitle = document.getElementById("noun-title")
+        nounTitle.innerHTML = response[0].meanings[0].partOfSpeech
+
+        let meaningTitle = document.getElementById("meaning1")
+        meaningTitle.innerHTML = "Meaning"
+        
+        let noundefine = document.getElementById("noun-meaning")
+        noundefine.innerHTML = "";
+
+        
+        for(let i=0;i<response[0].meanings[0].definitions.length;i++){
+            
+            let definitionList1=document.createElement("ul")
+            let nounLists = document.createElement("li")
+            let list1 = response[0].meanings[0].definitions[i].definition;
+            nounLists.innerHTML = list1;
+            definitionList1.appendChild(nounLists);
+            noundefine.appendChild(definitionList1);
+
+        }
+        
+        let synonymsTitle = document.getElementById("synonyms")
+        synonymsTitle.innerHTML = "synonyms"
+        let synonyms1 = document.getElementById("synonym-ans");
+        let synonymAns = response[0].meanings[0].synonyms;
+        synonyms1.innerHTML = synonymAns;
+        
+
+        let verbdefine = document.getElementById("defintion-list2")
+        verbdefine.innerHTML="";
+
+        let verbTitle = document.getElementById("verb-title")
+        verbTitle.innerHTML = response[0].meanings[1].partOfSpeech
+
+        let meaningTitle1 = document.getElementById("meaning2")
+        meaningTitle1.innerHTML = "Meaning"
+        for(let i=0;i<response[0].meanings[1].definitions.length;i++){
+            
+            let verblists = document.createElement("li")
+            let lists2 = response[0].meanings[1].definitions[i].definition;
+            verblists.innerHTML=lists2;
+            verbdefine.appendChild(verblists);
+        }
+   
+    let footerDiv = document.getElementById("footer")
+    let sourceDiv = document.getElementById("source-name")
+    let sourceName = document.getElementById("source-h")
+    sourceName.innerHTML = "source";
+    let sourceLink = document.getElementById("source-div")
+     let  a = document.createElement('a'); 
+     console.log( response[0].sourceUrls)
+     
+     a.setAttribute('href', response[0].sourceUrls);
+     a.setAttribute('target',"blank");
+     console.log(a);
+     a.innerHTML = response[0].sourceUrls;
+     
+    sourceLink.appendChild(a);
+    
+    sourceDiv.appendChild(sourceName)
+    footerDiv.appendChild(sourceDiv)
+    footerDiv.append(sourceLink)
+    
+})
+    })
+
+------------------------------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header id="header-part">
+
+    </header>
+    <main>
+    <div id = "main-container">
+        <div id="sub-container">
+            <div id="icons">
+                <div id="dictionary" class="icon-images">
+                    <img src="../fem js 2/images/dictionary.jpeg" width="30px" height="30px">
+                </div>
+                <div id="moon-icon">
+                    <div id="select">
+                        <select id="textfont">
+                            <option value="Serif">Serif</option>
+                            <option value="Times">Times</option>
+    
+                          </select>
+                    </div>
+                    <div id="toglebutton-1">
+                          <input type="checkbox" class="checkbox" id="chk">
+                          <label class="label" for="chk">
+                            <div class="ball"></div>
+                          </label>
+                    </div>
+                    <div id="moon-i" class="icon-images">
+                        <img src="../fem js 2/images/moon icon.jpeg" width="20px">
+                    </div>
+                </div>
+            </div>
+            <section id="section-1">
+                <div id="text-area">
+                    <input type="text" placeholder="Enter your word" id="word"/>
+                    <button id="search-icon" ><i  class = "fa fa-search" ></i></button>
+                </div>
+            </section>
+            <section id="section-2">
+                <div id="heading">
+                    <h2 id="headingValue"></h2>
+                    <p id="phoenitic"></p>
+                </div>
+            </section>
+            <div id="noun-part">
+                <h3 id="noun-title"></h3>
+                <p class="hr"></p>
+            </div>
+            <section id="section-3">
+                <h4 id="meaning1"></h4>
+                 <div id="noun-meaning">
+                    <!-- <ul id = "defintion-list1"> -->
+    
+                    </ul>
+                 </div> 
+                <div id="synonyms-div">
+                   <div> <p id="synonyms"></p></div>
+                    <div><p id="synonym-ans"></p></div>
+                </div>
+            </section>
+            <div id="verb-part">
+                <h3 id="verb-title"></h3>
+                <p class="hr"></p>
+            </div>
+            <section id="section-4">
+                <h4 id="meaning2"></h4>
+                <div id="verb-meaning">
+                    <ul id="defintion-list2"></ul>
+                </div>
+            </section>
+      
+        <div id = "footer">
+            <div id="source-name">
+                <h4 id="source-h"></h4>
+    
+            </div>
+            <div id="source-div">
+                
+            </div>
+          </div>
+    
+         </div>
+     </div>
+    </main>
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
+------------------------------------------------css-----------------------------------------------------
+
+
+#main-container{
+    display: flex;
+    justify-content: center;
+}
+#sub-container{
+    width:50%;
+
+}
+#word{
+    width:95%;
+    height:35px;
+    background-color:rgb(214, 208, 208);
+    border-style: none;
+    border-radius: 15px;
+}
+#search-icon{
+    height:40px;
+    margin-left: -30px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-style: none;
+    color:darkmagenta;
+}
+
+#synonym-ans{
+    color:darkmagenta;
+    margin-left: 25px ;
+}
+
+#icons{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+}
+#moon-icon{
+    display:flex;
+    justify-content: space-evenly;
+    margin-right: 20px;
+}
+#text-font{
+   border-style: none;
+}
+#synonyms-div{
+    display: flex;
+}
+
+
+
+body {
+	background-color: #fafafa;
+	
+	height: 100vh;
+	margin: 0;
+	transition: background 0.2s linear;
+}
+
+body.dark {
+	background: #000000bf;
+}
+
+.checkbox {
+	opacity: 0;
+	position: absolute;
+}
+
+.label {
+	background-color: #3f3f3f;
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px;
+	position: relative;
+	height: 5px;
+	width: 20px;
+	transform: scale(1.5);
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.label .ball {
+	background-color: #fff;
+	border-radius: 50%;
+	position: absolute;
+	left: 1px;
+	height: 10px;
+	width: 13px;
+	transform: translateX(0px);
+	transition: transform 0.2s linear;
+}
+
+body.dark p
+{
+color: white;
+}
+body.dark h1
+{
+color: white;
+}
+body.dark h4
+{
+color: white;
+}
+body.dark li
+{
+color: white;
+}
+body.dark span
+{
+color: white;
+}
+.checkbox:checked + .label .ball {
+	transform: translateX(10px);
+}
+
+#headingValue{
+    font-size:40px;
+}
+#phoenitic{
+    font-size: larger;
+    color:darkorchid;
+}
+#footer{
+    display: flex;
+    align-items: center;
+}
+#source-div{
+    margin-left: 25px;
+}
+#noun-part{
+    display: flex;
+    align-items:center;
+}
+#verb-part{
+    display: flex;
+    align-items: center;
+}
+.hr{
+    width:90%;
+    height: 0.1px;
+    border: 1px solid black;
+    background-color: black;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+<div class="switch">
+      <img src="./book-bookmark (1).png" />
+
+      <img src="./moon.png" />
+      <select>
+        <option value="serif">serif</option>
+        <option value="serif">Montserrat</option>
+      </select>
+    </div>
+
+    <div class="input">
+      <input type="text" id="search" placeholder="keyboard" />
+      <h4>noun</h4>
+    </div>
